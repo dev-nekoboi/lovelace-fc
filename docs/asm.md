@@ -1,13 +1,15 @@
-# Lovelace
+# Lovelace <a name="top"></a>
 ## Assembly
+[Quick Reference](#quick-reference)
 
-### Numbers
+### Numbers <a name="numbers"></a>
+[Back to Top](#top)
 - Hexadecimal numbers must be prefixed with `$`
 - Binary numbers must be prefixed with `%`
 - Decimal numbers may optionally be prefixed with `!`
 - Literals must be prefixed with `#` otherwise it is an address
 	- `#` must come before `$`, `%`, or `!`
-- Examples:
+- Examples: <a name="numbers-examples"></a>
 	- `#$10`
 		- 16 as a literal
 	- `#%10`
@@ -19,42 +21,45 @@
 	- `$280`
 		- the address `640`
 
-### Labels
+### Labels <a name="labels"></a>
+[Back to Top](#top)
 - Labels can be used in place of an address to jump to where the label was defined
 - Labels are prefixed with `:` and can be accessed anywhere in the file
 - Labels must be alone on the line where they are defined
 - You may prefix a label with `>` or `<` to get the most and least significant bytes as a literal respectively
 	- This is before the `:`
 
-### Flags
-- S
+### Flags <a name="flags"></a>
+[Back to Top](#top)
+- S <a name="flags-sign"></a>
 	- Sign
 	- x0000000
 	- Set by instructions with a numerical result if that result is negative.
-- C
+- C <a name="flags-carry"></a>
 	- Carry
 	- 0x000000
 	- Set by arithmetic instructions if a 1 bit in the 9th position was truncated.
-- I
+- I <a name="flags-interrupt-disable"></a>
 	- Interrupt Disable
 	- 00x00000
 	- Only manually set. Controls whether or not interrupts happen.
-- O
+- O <a name="flags-overflow"></a>
 	- Overflow
 	- 000x0000
 	- Set by arithmetic instructions if the sign of the result is affected by truncation.
-- G
+- G <a name="flags-greater"></a>
 	- Greater
 	- 000000x0
 	- Only set by the CMP instruction if the first operand is greater than the second.
-- Z
+- Z <a name="flags-zero"></a>
 	- Zero
 	- 0000000x
 	- Set by instructions with a numerical result if that result is 0.
 	- Also set by CMP if its two operands are equal.
 
 
-### Comments (note: not for mini-assembler)
+### Comments (note: not for mini-assembler) <a name="notes"></a>
+[Back to Top](#top)
 - Anything following a `;` on a line is a comment and is not compiled
 
 ### CPU/ASM Notes
@@ -71,14 +76,15 @@
 - adr means address
 - zp means zeropage address
 
-### Instructions
-- NOP
+### Instructions <a name="instructions"></a>
+[Back to Top](#top)
+- NOP <a name="instructions-nop"></a>
 	- No operation
 	- Opcodes:
 	- 0x01
 		- 1 Cycle
 		- NOP
-- STR \<reg/acc/lit> \<adr/zp>
+- STR \<reg/acc/lit> \<adr/zp> <a name="instructions-str"></a>
 	- Stores data from source operand to destination address
 	- Opcodes:
 		- 0x09
@@ -117,7 +123,7 @@
 		- 0x14
 			- 3 cycles
 			- STR \<lit> \<zp>
-- STRI \<reg/acc/lit> \<adr>
+- STRI \<reg/acc/lit> \<adr> <a name="instructions-stri"></a>
 	- Stores data from source operand to address pointed to by destination address
 	- Opcodes:
 		- 0x15
@@ -138,7 +144,7 @@
 		- 0x56
 			- 7 cycles
 			- STRI \<lit> \<adr>
-- STRIZ \<reg/acc/lit> \<zp>
+- STRIZ \<reg/acc/lit> \<zp> <a name="instructions-striz"></a>
 	- Stores data from source operand to address pointed to by destination zero-page address
 	- Opcodes:
 		- 0x1A
@@ -159,7 +165,7 @@
 		- 0x57
 			- 6 cycles
 			- STRIZ \<lit> \<adr>
-- LOD \<lit/adr/zp> \<reg/acc>
+- LOD \<lit/adr/zp> \<reg/acc> <a name="instructions-lod"></a>
 	- Loads data from source operand into destination register
 	- Opcodes:
 		- 0x1F
@@ -207,7 +213,7 @@
 		- 0x2D
 			- 2 cycles
 			- LOD \<lit> acc
-- LODI \<adr> \<reg/acc>
+- LODI \<adr> \<reg/acc> <a name="instructions-lodi"></a>
 	- Loads data from address pointed to by source address into destination register
 	- Opcodes:
 		- 0x2E
@@ -225,7 +231,7 @@
 		- 0x32
 			- 6 cycles
 			- LODI \<adr> acc
-- LODIZ \<zp> \<reg/acc>
+- LODIZ \<zp> \<reg/acc> <a name="instructions-lodiz"></a>
 	- Loads data from address pointed to by source zero-page address into destination register
 	- Opcodes:
 		- 0x33
@@ -243,7 +249,7 @@
 		- 0x37
 			- 5 cycles
 			- LODI \<zp> acc
-- TRN \<reg/acc/sp/flg> \<reg/acc>
+- TRN \<reg/acc/sp/flg> \<reg/acc> <a name="instructions-trn"></a>
 	- Copies value from source register to destination register
 	- Opcodes:
 		- 0x38
@@ -336,7 +342,7 @@
 		- 0x55
 			- 1 cycle
 			- TRN flg acc
-- ADD \<reg/acc/lit>
+- ADD \<reg/acc/lit> <a name="instructions-add"></a>
 	- Adds the source to the accumulator, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -358,7 +364,7 @@
 		- 0x63
 			- 2 cycles
 			- ADD \<lit>
-- ADDC \<reg/acc/lit>
+- ADDC \<reg/acc/lit> <a name="instructions-addc"></a>
 	- Adds the source and the carry flag to the accumulator, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -380,7 +386,7 @@
 		- 0x69
 			- 2 cycles
 			- ADDC \<lit>
-- SUB \<reg/lit>
+- SUB \<reg/lit> <a name="instructions-sub"></a>
 	- Subtracts the source to the accumulator, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -399,7 +405,7 @@
 		- 0x6e
 			- 2 cycles
 			- SUB \<lit>
-- SUBC \<reg/lit>
+- SUBC \<reg/lit> <a name="instructions-subc"></a>
 	- Subtracts the source and the carry flag to the accumulator, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -418,7 +424,7 @@
 		- 0x73
 			- 2 cycles
 			- SUBC \<lit>
-- SHR \<reg/acc/lit>
+- SHR \<reg/acc/lit> <a name="instructions-shr"></a>
 	- Bitshifts the accumulator to the right, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
@@ -440,7 +446,7 @@
 		- 0x79
 			- 2 cycles
 			- SHR \<lit>
-- SHL \<reg/acc/lit>
+- SHL \<reg/acc/lit> <a name="instructions-shl"></a>
 	- Bitshifts the accumulator to the left, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
@@ -462,7 +468,7 @@
 		- 0x7f
 			- 2 cycles
 			- SHL \<lit>
-- AND \<reg/lit>
+- AND \<reg/lit> <a name="instructions-and"></a>
 	- Applies a bitwise and to the accumulator, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
@@ -481,7 +487,7 @@
 		- 0x84
 			- 2 cycles
 			- AND \<lit>
-- OR \<reg/lit>
+- OR \<reg/lit> <a name="instructions-or"></a>
 	- Applies a bitwise or to the accumulator, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
@@ -500,7 +506,7 @@
 		- 0x89
 			- 2 cycles
 			- OR \<lit>
-- XOR \<reg/lit>
+- XOR \<reg/lit> <a name="instructions-xor"></a>
 	- Applies a bitwise xor to the accumulator, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
@@ -519,14 +525,14 @@
 		- 0x8e
 			- 2 cycles
 			- XOR \<lit>
-- NOT
+- NOT <a name="instructions-not"></a>
 	- Applies a bitwise not to the accumulator, setting some flags.
 	- Flags: S, Z
 	- Opcodes:
 		- 0x8f
 			- 1 cycle
 			- NOT
-- INC \<reg/acc>
+- INC \<reg/acc> <a name="instructions-inc"></a>
 	- Adds 1 to the argument, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -545,7 +551,7 @@
 		- 0x94
 			- 1 cycle
 			- INC acc
-- DEC \<reg/acc>
+- DEC \<reg/acc> <a name="instructions-dec"></a>
 	- Subtracts 1 to the argument, setting some flags.
 	- Flags: S, Z, O, C
 	- Opcodes:
@@ -564,7 +570,7 @@
 		- 0x99
 			- 1 cycle
 			- DEC acc
-- PSH \<reg/acc/lit>
+- PSH \<reg/acc/lit> <a name="instructions-psh"></a>
 	- Pushes a value to the stack. This increments the stack pointer.
 	- Opcodes:
 		- 0xa2
@@ -585,7 +591,7 @@
 		- 0xa7
 			- 3 cycles
 			- PUSH \<lit>
-- POP \<reg/acc>
+- POP \<reg/acc> <a name="instructions-pop"></a>
 	- Pops a value from the stack. This decrements the stack pointer.
 	- Opcodes:
 		- 0xa8
@@ -603,13 +609,13 @@
 		- 0xac
 			- 2 cycles
 			- POP acc
-- DRP
+- DRP <a name="instructions-drp"></a>
 	- Drops a value from the stack. This decrements the stack pointer.
 	- Opcodes:
 		- 0xad
 			- 1 cycle
 			- DROP
-- CMP \<reg/acc> \<reg/acc/lit>
+- CMP \<reg/acc> \<reg/acc/lit> <a name="instructions-cmp"></a>
 	- Compares two values. The Z flag is set if they are equal, and the G flag is set if the first is greater than the second.
 	- Note that comparisons are unsigned.
 	- Opcodes:
@@ -688,7 +694,7 @@
 		- 0xce
 			- 2 cycles
 			- CMP acc \<lit>
-- BRA \<flg> \<adr>
+- BRA \<flg> \<adr> <a name="instructions-bra"></a>
 	- Acts like a JMP conditional on the flag being set.
 	- Opcodes:
 		- 0xcf
@@ -709,7 +715,7 @@
 		- 0xd4
 			- 3 cycles if jump, 1 otherwise
 			- BRA Z
-- BRAN \<flg> \<adr>
+- BRAN \<flg> \<adr> <a name="instructions-bran"></a>
 	- Acts like a JMP conditional on the flag being clear.
 	- Opcodes:
 		- 0xd5
@@ -730,43 +736,43 @@
 		- 0xda
 			- 3 cycles if jump, 1 otherwise
 			- BRAN Z
-- JMP \<adr>
+- JMP \<adr> <a name="instructions-jmp"></a>
 	- Sets the program counter to the address.
 	- Opcodes:
 		- 0xdb
 			- 3 cycles
 			- JMP \<adr>
-- JMPI \<adr>
+- JMPI \<adr> <a name="instructions-jmpi"></a>
 	- Jumps to address pointed to by given address.
 	- Opcodes:
 		- 0xdc
 			- 5 cycles
 			- JMP \<adr>
-- JSR \<adr>
+- JSR \<adr> <a name="instructions-jsr"></a>
 	- Pushes the PC to the stack and jumps to the given address.
 	- Opcodes:
 		- 0xdd
 			- 5 cycles
 			- JSR \<adr>
-- JSRI \<adr>
+- JSRI \<adr> <a name="instructions-jsri"></a>
 	- Pushes the PC to the stack and jumps to the address pointed to by the given address.
 	- Opcodes:
 		- 0xde
 			- 7 cycles
 			- JSRI \<adr>
-- RET
+- RET <a name="instructions-ret"></a>
 	- Pops an address off of the stack and jumps to it.
 	- Opcodes:
 		- 0xdf
 			- 3 cycles
 			- RET
-- RETI
+- RETI <a name="instructions-reti"></a>
 	- Pops an address off of the stack and jumps to it. Also pops the flags register.
 	- Opcodes:
 		- 0xe0
 			- 4 cycles
 			- RETI
-- SET \<flg>
+- SET \<flg> <a name="instructions-set"></a>
 	- Sets a given flag.
 	- Opcodes:
 		- 0xe9
@@ -787,7 +793,7 @@
 		- 0xee
 			- 1 cycle
 			- SET Z
-- CLR \<flg>
+- CLR \<flg> <a name="instructions-clr"></a>
 	- Clears a given flag.
 	- Opcodes:
 		- 0xef
@@ -809,12 +815,68 @@
 			- 1 cycle
 			- CLR Z
 
-### Pseudo-Instructions
-- ADR \<name> \<adr/zp>
+### Pseudo-Instructions <a name="pseudo-instructions"></a>
+[Back to Top](#top)
+- ADR \<name> \<adr/zp> <a name="pseudo-instructions-adr"></a>
 	- Creates a constant that you can use instead for addresses instead of typing the number
-- LIT \<name> \<lit>
+- LIT \<name> \<lit> <a name="pseudo-instructions-lit"></a>
 	- Creates a constant that you can use instead for literals instead of typing the number
-- BYTES \<8-bit value> ...
+- BYTES \<8-bit value> ... <a name="pseudo-instructions-bytes"></a>
 	- Inserts arbitrary number of 8-bit values into the bytecode at current location
 	- Values must be prefixed with `#`
 		- If you do not then undefined behavior occurs
+
+### Quick Reference <a name="quick-reference"></a>
+[Back to Top](#top)
+- [Numbers](#numbers)
+	- [Examples](#numbers-examples)
+- [Labels](#labels)
+- [Flags](#flags)
+	- [Sign (S)](#flags-sign)
+	- [Carry (C)](#flags-carry)
+	- [Interrupt Disable (I)](#flags-interrupt-disable)
+	- [Overflow (O)](#flags-overflow)
+	- [Greater (G)](#flags-greater)
+	- [Zero (Z)](#flags-zero)
+- [Notes](#notes)
+- [Instructions](#instructions)
+	- [NOP](#instructions-nop)
+	- [STR](#instructions-str)
+	- [STRI](#instructions-stri)
+	- [STRIZ](#instructions-striz)
+	- [LOD](#instructions-lod)
+	- [LODI](#instructions-lodi)
+	- [LODIZ](#instructions-lodiz)
+	- [TRN](#instructions-trn)
+	- [ADD](#instructions-add)
+	- [ADDC](#instructions-addc)
+	- [SUB](#instructions-sub)
+	- [SUBC](#instructions-subc)
+	- [SHR](#instructions-shr)
+	- [SHL](#instructions-shl)
+	- [AND](#instructions-and)
+	- [OR](#instructions-or)
+	- [XOR](#instructions-xor)
+	- [NOT](#instructions-not)
+	- [INC](#instructions-inc)
+	- [DEC](#instructions-dec)
+	- [PSH](#instructions-psh)
+	- [POP](#instructions-pop)
+	- [DRP](#instructions-drp)
+	- [CMP](#instructions-cmp)
+	- [BRA](#instructions-bra)
+	- [BRAN](#instructions-bran)
+	- [JMP](#instructions-jmp)
+	- [JMPI](#instructions-jmpi)
+	- [JSR](#instructions-jsr)
+	- [JSRI](#instructions-jsri)
+	- [RET](#instructions-ret)
+	- [RETI](#instructions-reti)
+	- [SET](#instructions-set)
+	- [CLR](#instructions-clr)
+- [Pseudo-Instructions](#pseudo-instructions)
+	- [ADR](#pseudo-instructions-adr)
+	- [LIT](#pseudo-instructions-lit)
+	- [BYTES](#pseudo-instructions-bytes)
+
+[Back to Top](#top)
